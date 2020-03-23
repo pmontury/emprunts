@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Weblitzer\Controller;
 use App\Model\EmpruntsModel;
+use App\Model\AbonnesModel;
+use App\Model\ProductsModel;
 use App\Service\Form;
 use App\Service\Validation;
 
@@ -16,12 +18,21 @@ class EmpruntsController extends Controller
    private $post = array();
 
    public function liste()
-   {  $emprunts = EmpruntsModel::all();
-      $titre = 'Liste des emprunts';
+   {  $titre = 'Liste des emprunts';
+      $emprunts = EmpruntsModel::all();
+      $abonnes = AbonnesModel::all();
+      $products = ProductsModel::all();
+
+
+
+      $form = new Form($this->errors);
 
       $this->render('app.emprunts.liste',array(
-         'titre' => $titre,
-         'emprunts' => $emprunts
+         'titre'     => $titre,
+         'form'      => $form,
+         'emprunts'  => $emprunts,
+         'abonnes'   => $abonnes,
+         'products'  => $products,
       ));
    }
 

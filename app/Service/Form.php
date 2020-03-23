@@ -112,6 +112,7 @@ class Form
     public function select($name, $entitys, $column, $data = '', $idd = 'id')
     {
         $html = '<select name="'.$name.'">';
+        $html .= '<option>-- Choisissez un '.$name.' --</option>';
         foreach ($entitys as $entity) {
             if(!empty($data) && $data == $entity->$idd){
                 $selected = ' selected="selected"';
@@ -121,6 +122,7 @@ class Form
             $html .= '<option value="'.$entity->$idd.'"'.$selected.'>'.$entity->$column.'</option>';
         }
         $html .= '</select>';
+        $html .= '<p class="error">'.$this->error($name).'</p>';
         return $html;
     }
 
