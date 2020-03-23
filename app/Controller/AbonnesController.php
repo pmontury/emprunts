@@ -3,9 +3,12 @@
 namespace App\Controller;
 
 use App\Weblitzer\Controller;
+use App\Weblitzer\View;
 use App\Model\AbonnesModel;
 use App\Service\Form;
 use App\Service\Validation;
+
+use JasonGrimes\Paginator;
 
 /**
  *
@@ -15,13 +18,27 @@ class AbonnesController extends Controller
    private $errors = array();
    private $post = array();
 
-   public function liste()
-   {  $abonnes = AbonnesModel::all();
+   public function liste($page)
+   {
+      $view = new View();
+
       $titre = 'Liste des abonnés';
+
+      $totalItems = AbonnesModel::count();
+      $itemsPerPage = 2;
+      $currentPage = 1;
+      $offset = 0;
+      $currentPage = $page;
+      $offset = ($currentPage - 1) * $itemsPerPage;
+      $urlPattern = $view->path('liste') . '/(:num)/';
+      $paginator = new Paginator($totalItems, $itemsPerPage, $currentPage, $urlPattern);
+
+      $abonnes = AbonnesModel::allByPage($itemsPerPage, $offset, 'nom');
 
       $this->render('app.abonnes.liste',array(
          'titre' => $titre,
-         'abonnes' => $abonnes
+         'abonnes' => $abonnes,
+         'paginator' => $paginator,
       ));
    }
 
@@ -43,7 +60,7 @@ class AbonnesController extends Controller
          {  $this->post['age'] = NULL;
          }
          AbonnesModel::insert($this->post);
-         $this->redirect('liste');
+         $this->redirect('liste',array(1));
       }
 
       $form = new Form($this->errors);
@@ -60,7 +77,7 @@ class AbonnesController extends Controller
 
       if ($this->validData($this->errors))
       {  AbonnesModel::update($this->abonne->id, $this->post);
-         $this->redirect('liste');
+         $this->redirect('liste',array(1));
       }
 
       $form = new Form($this->errors);
@@ -75,7 +92,7 @@ class AbonnesController extends Controller
    public function delete($id)
    {  $this->getAbonne($id);
       AbonnesModel::delete($this->abonne->id);
-      $this->redirect('liste');
+      $this->redirect('liste',array(1));
    }
 
    private function getAbonne($id)

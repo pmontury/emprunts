@@ -8,16 +8,36 @@ class EmpruntsModel extends \App\Weblitzer\Model
 {
    protected static $table = 'emprunts';
 
-   public static function insert($post)
-   {  App::getDatabase()->prepareInsert("INSERT INTO " . self::getTable() .
-                                       " (titre, reference, description) VALUES (?,?,?) ",
-                                       [$post['titre'],$post['reference'],$post['description']]);
+   public static function allEnCours()
+   {
+      return App::getDatabase()->query("SELECT * FROM ".self::getTable(). " WHERE end_date IS NULL",get_called_class());
    }
 
-   public static function update($id, $post)
-   {  App::getDatabase()->prepareInsert("UPDATE " . self::getTable() .
-                                       " SET titre = ?, reference = ?, description = ? WHERE id = ? ",
-                                       [$post['titre'],$post['reference'],$post['description'], $id]);
+   public static function allByPage($itemsPerPage, $offset, $orderCol = false, $order = 'ASC')
+   {  $sql = "SELECT * FROM ".self::getTable() . " WHERE end_date IS NULL";
+      if ($orderCol)
+      {  $sql .= " ORDER BY ".$orderCol." ".$order;
+      }
+      $sql .= " LIMIT ".$itemsPerPage." OFFSET ".$offset;
+
+      return App::getDatabase()->query($sql, get_called_class());
+   }
+
+   public static function countEnCours()
+   {
+      return App::getDatabase()->aggregation("SELECT COUNT(id) FROM " . self::getTable() . " WHERE end_date IS NULL" );
+   }
+
+   public static function insert($post)
+   {
+      App::getDatabase()->prepareInsert("INSERT INTO " . self::getTable() .
+                                       " (id_abonne, id_product, start_date) VALUES (?,?,NOW()) ",
+                                       [$post['abonne'],$post['produit']]);
+   }
+
+   public static function update($id)
+   {
+      App::getDatabase()->prepareInsert("UPDATE " . self::getTable() . " SET end_date = NOW() WHERE id = ?",[$id]);
    }
 
 }

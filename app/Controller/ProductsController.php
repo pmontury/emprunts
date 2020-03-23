@@ -3,9 +3,12 @@
 namespace App\Controller;
 
 use App\Weblitzer\Controller;
+use App\Weblitzer\View;
 use App\Model\ProductsModel;
 use App\Service\Form;
 use App\Service\Validation;
+
+use JasonGrimes\Paginator;
 
 /**
  *
@@ -15,13 +18,26 @@ class ProductsController extends Controller
    private $errors = array();
    private $post = array();
 
-   public function liste()
-   {  $products = ProductsModel::all();
+   public function liste($page)
+   {
+      $view = new View();
       $titre = 'Liste des produits';
+
+      $totalItems =  ProductsModel::count();
+      $itemsPerPage = 2;
+      $currentPage = 1;
+      $offset = 0;
+      $currentPage = $page;
+      $offset = ($currentPage - 1) * $itemsPerPage;
+      $urlPattern = $view->path('listeproducts') . '/(:num)/';
+      $paginator = new Paginator($totalItems, $itemsPerPage, $currentPage, $urlPattern);
+
+      $products = ProductsModel::allByPage($itemsPerPage, $offset, 'titre');
 
       $this->render('app.products.liste',array(
          'titre' => $titre,
-         'products' => $products
+         'products' => $products,
+         'paginator' => $paginator,
       ));
    }
 
@@ -40,7 +56,7 @@ class ProductsController extends Controller
 
       if ($this->validData($this->errors))
       {  ProductsModel::insert($this->post);
-         $this->redirect('listeproducts');
+         $this->redirect('listeproducts',array(1));
       }
 
       $form = new Form($this->errors);
@@ -57,7 +73,7 @@ class ProductsController extends Controller
 
       if ($this->validData($this->errors))
       {  ProductsModel::update($this->product->id, $this->post);
-         $this->redirect('listeproducts');
+         $this->redirect('listeproducts',array(1));
       }
 
       $form = new Form($this->errors);
@@ -72,7 +88,7 @@ class ProductsController extends Controller
    public function delete($id)
    {  $this->getProduct($id);
       ProductsModel::delete($this->product->id);
-      $this->redirect('listeproducts');
+      $this->redirect('listeproducts',array(1));
    }
 
    private function getProduct($id)

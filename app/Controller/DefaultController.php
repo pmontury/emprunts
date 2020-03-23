@@ -3,6 +3,9 @@
 namespace App\Controller;
 
 use App\Weblitzer\Controller;
+use App\Model\EmpruntsModel;
+use App\Model\AbonnesModel;
+use App\Model\ProductsModel;
 
 /**
  *
@@ -10,14 +13,21 @@ use App\Weblitzer\Controller;
 class DefaultController extends Controller
 {
 
-    public function index()
-    {
-        $message = 'Bienvenue dans les emprunts';
+   public function index()
+   {
+      $message = 'Bienvenue dans les emprunts';
 
-        $this->render('app.default.frontpage',array(
+      $stats = array();
+      $stats[] = AbonnesModel::count();
+      $stats[] = ProductsModel::count();
+      $stats[] = EmpruntsModel::count();
+      $stats[] = EmpruntsModel::countEnCours();
+
+      $this->render('app.default.frontpage',array(
             'message' => $message,
-        ));
-    }
+            'stats'     => $stats,
+         ));
+   }
 
     /**
      *

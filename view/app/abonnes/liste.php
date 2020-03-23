@@ -1,6 +1,7 @@
 <h1 style="text-align: center;font-size:33px;margin-top: 10px;">
     <?= $titre; ?>
 </h1>
+<?= $paginator; ?>
 <table>
     <thead>
         <tr>

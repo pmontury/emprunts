@@ -109,10 +109,10 @@ class Form
      * @param $data
      * @return string
      */
-    public function select($name, $entitys, $column, $data = '', $idd = 'id')
+    public function select($name, $entitys, $column, $default = '-- Choisissez --', $data = '', $idd = 'id')
     {
         $html = '<select name="'.$name.'">';
-        $html .= '<option>-- Choisissez un '.$name.' --</option>';
+        $html .= '<option value="">' . $default . '</option>';
         foreach ($entitys as $entity) {
             if(!empty($data) && $data == $entity->$idd){
                 $selected = ' selected="selected"';

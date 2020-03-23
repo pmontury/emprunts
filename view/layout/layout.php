@@ -15,9 +15,10 @@
       <div class="wrap position">
          <nav>
              <ul>
-                 <li><a href="<?= $view->path('liste'); ?>">Les abonnés</a></li>
-                 <li><a href="<?= $view->path('listeproducts'); ?>">Les produits</a></li>
-                 <li><a href="<?= $view->path('listeemprunts'); ?>">Les emprunts</a></li>
+                 <li><a href="<?= $view->path('home'); ?>">Home</a></li>
+                 <li><a href="<?= $view->path('liste',array(1)); ?>">Les abonnés</a></li>
+                 <li><a href="<?= $view->path('listeproducts',array(1)); ?>">Les produits</a></li>
+                 <li><a href="<?= $view->path('listeemprunts',array(1)); ?>">Les emprunts</a></li>
              </ul>
          </nav>
       </div>

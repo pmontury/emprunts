@@ -35,6 +35,11 @@ th
 td { padding-left: 5px; border: 1px solid black; vertical-align: middle;}
 i { color: black; vertical-align: middle; }
 i:hover { color: tomato; }
+
+.pagination li { display: inline; padding: 0 5px; }
+.pagination li a { text-decoration: none; color: black; }
+.active { background-color: #AED2E8; border-radius: 5px; }
+
 .formInput { margin: 10px 0;  }
 label { display: inline-block; width: 20%; font-weight: bold; vertical-align: top; }
 label span { color:red; }
