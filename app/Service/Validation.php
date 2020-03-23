@@ -45,13 +45,13 @@ class Validation
         if(!empty($text)) {
             $strtext = strlen($text);
             if($strtext > $max) {
-                $error = 'Votre ' . $title . ' est trop long.';
+                $error = 'Le champ "' . $title . '" est trop long.';
             } elseif($strtext < $min) {
-                $error = 'Votre ' . $title . ' est trop court.';
+                $error = 'Le champ "' . $title . '" est trop court.';
             }
         } else {
             if($empty) {
-                $error = 'Veuillez renseigner un ' . $title . '.';
+                $error = 'Veuillez renseigner le champ "' . $title . '".';
             }
         }
         return $error;

@@ -80,7 +80,7 @@ class AbonnesController extends Controller
 
    private function getAbonne($id)
    {  if (empty($this->abonne = AbonnesModel::findById($id)))
-      {  $this->page404();
+      {  $this->Abort404();
       }
    }
 
@@ -99,14 +99,6 @@ class AbonnesController extends Controller
          }
       }
       return false;
-   }
-
-   /**
-   *
-   */
-   public function Page404()
-   {
-      $this->render('app.default.404');
    }
 
 }

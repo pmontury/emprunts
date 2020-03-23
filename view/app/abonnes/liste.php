@@ -21,7 +21,7 @@
             <td><?= $abonne->age; ?></td>
             <td><?= date('d/m/Y',strtotime($abonne->created_at)); ?></td>
             <td class="colaction">
-               <!-- <a href="<?= $view->path('detail',array($abonne->id)); ?>" title="Voir l'article"><i class="fi-eye size-30"></i></a>&nbsp; -->
+               <a href="<?= $view->path('detail',array($abonne->id)); ?>" title="Voir l'abonné"><i class="fi-eye size-30"></i></a>&nbsp;
                <a href="<?= $view->path('update',array($abonne->id)); ?>" title="Editer l'abonné"><i class="fi-pencil size-24"></i></a>&nbsp;
                <a href="<?= $view->path('delete',array($abonne->id)); ?>" title="Supprimer l'abonné" onclick="return confirm('Voulez-vous vraiment supprimer cet article ?')">
                    <i class="fi-trash size-24"></i>
