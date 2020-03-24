@@ -112,13 +112,6 @@ class ProductsController extends Controller
       }
    }
 
-   private function getCategorie($id)
-   {
-      if (empty(CategoriesModel::findById($id))) {
-         $this->Abort404();
-      }
-   }
-
    private function validData()
    {
       if(!empty($_POST['submitted'])) {
@@ -131,8 +124,9 @@ class ProductsController extends Controller
 
          if (empty($this->post['categorie'])) {
             $this->errors['categorie'] = 'Veuillez choisir une catégorie';
-         } else {
-            $this->getCategorie($this->post['categorie']);
+         } elseif (empty(CategoriesModel::findById($id))) {
+            $this->post['categorie'] = '';
+            $this->errors['categorie'] = 'Veuillez choisir une catégorie';
          }
 
          if($validation->IsValid($this->errors))
