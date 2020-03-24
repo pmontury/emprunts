@@ -92,14 +92,16 @@ class EmpruntsController extends Controller
 
          if (empty($this->post['abonne'])) {
             $this->errors['abonne'] = 'Veuillez choisir un abonné';
-         } else {
-            $this->getAbonne($this->post['abonne']);
+         } elseif (empty(AbonnesModel::findById($this->post['abonne']))) {
+            $this->post['abonne'] = '';
+            $this->errors['abonne'] = 'Etrange';
          }
 
          if (empty($this->post['produit'])) {
             $this->errors['produit'] = 'Veuillez choisir un produit';
-         } else {
-            $this->getProduct($this->post['produit']);
+         } elseif (empty(ProductsModel::findById($this->post['produit']))) {
+            $this->post['produit'] = '';
+            $this->errors['produit'] = 'Etrange';
          }
 
          $validation = new Validation;

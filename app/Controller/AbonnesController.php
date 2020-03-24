@@ -57,10 +57,7 @@ class AbonnesController extends Controller
    {
       $titre = 'Ajouter un abonné';
 
-      if ($this->validData())
-      {  if (empty($this->post['age'])) {
-            $this->post['age'] = NULL;
-         }
+      if ($this->validData()) {
          AbonnesModel::insert($this->post);
          $this->redirect('liste',array(1));
       }
@@ -115,7 +112,11 @@ class AbonnesController extends Controller
          $this->errors['nom'] = $validation->textValid($this->post['nom'], 'nom');
          $this->errors['prenom'] = $validation->textValid($this->post['prenom'], 'prenom');
          $this->errors['email'] = $validation->emailValid($this->post['email'], 'email', 3, 100, false);
-         $this->errors['age'] = $validation->intValid($this->post['age'], 'age', 1, 130, false);
+         if (!empty($this->post['age'])) {
+            $this->errors['age'] = $validation->intValid($this->post['age'], 'age', 1, 130, false);
+         } else {
+            $this->post['age'] = NULL;
+         }
 
          if($validation->IsValid($this->errors)) {
             return true;
