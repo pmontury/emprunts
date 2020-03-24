@@ -2,7 +2,8 @@
     <?= $message; ?>
 </h1>
 <h1>Statistiques</h1>
-<p>Nombre d'abonnés: <?= $stats[0]; ?></p>
-<p>Nombre de produits: <?= $stats[1]; ?></p>
-<p>Nombre total d'emprunts: <?= $stats[2]; ?></p>
-<p>Nombre d'emprunts en cours: <?= $stats[3]; ?></p>
+<p>Nombre d'abonnés: <?= $stats['nb_abonnes']; ?></p>
+<p>Nombre de produits: <?= $stats['nb_products']; ?></p>
+<p>Nombre de catégories: <?= $stats['nb_cats']; ?></p>
+<p>Nombre total d'emprunts: <?= $stats['nb_emprunts_tot']; ?></p>
+<p>Nombre d'emprunts en cours: <?= $stats['nb_emprunts_encours']; ?></p>

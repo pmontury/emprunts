@@ -6,6 +6,7 @@
             <th>Titre</th>
             <th>Référence</th>
             <th>Description</th>
+            <th>Categorie</th>
             <th class="colaction">Action</th>
         </tr>
     </thead>
@@ -15,6 +16,7 @@
             <td><?= $product->titre; ?></td>
             <td><?= $product->reference; ?></td>
             <td><?= $product->description; ?></td>
+            <td><?= $product->nom; ?></td>
             <td class="colaction">
                <a href="<?= $view->path('detailproducts',array($product->id)); ?>" title="Voir le produit"><i class="fi-eye size-30"></i></a>&nbsp;
                <a href="<?= $view->path('updateproducts',array($product->id)); ?>" title="Editer le produit"><i class="fi-pencil size-24"></i></a>&nbsp;

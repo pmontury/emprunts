@@ -4,7 +4,10 @@ namespace App\Controller;
 
 use App\Weblitzer\Controller;
 use App\Weblitzer\View;
+
 use App\Model\ProductsModel;
+use App\Model\CategoriesModel;
+
 use App\Service\Form;
 use App\Service\Validation;
 
@@ -33,7 +36,7 @@ class ProductsController extends Controller
       $urlPattern = $view->path('listeproducts') . '/(:num)/';
       $paginator = new Paginator($totalItems, $itemsPerPage, $currentPage, $urlPattern);
 
-      $products = ProductsModel::allByPage($itemsPerPage, $offset, 'titre');
+      $products = ProductsModel::allByPageJoint($itemsPerPage, $offset, 'titre');
 
       $this->render('app.products.liste',array(
          'titre' => $titre,
@@ -62,11 +65,14 @@ class ProductsController extends Controller
          $this->redirect('listeproducts',array(1));
       }
 
+      $categories = CategoriesModel::all();
+
       $form = new Form($this->errors);
 
       $this->render('app.products.add',array(
-         'titre' => $titre,
-         'form' => $form
+         'titre'        => $titre,
+         'categories'   => $categories,
+         'form'         => $form
       ));
    }
 
@@ -80,12 +86,15 @@ class ProductsController extends Controller
          $this->redirect('listeproducts',array(1));
       }
 
+      $categories = CategoriesModel::all();
+
       $form = new Form($this->errors);
 
       $this->render('app.products.update',array(
-         'titre'     => $titre,
-         'form'      => $form,
-         'product'   => $this->product
+         'titre'        => $titre,
+         'form'         => $form,
+         'product'      => $this->product,
+         'categories'   => $categories,
       ));
    }
 
@@ -103,6 +112,13 @@ class ProductsController extends Controller
       }
    }
 
+   private function getCategorie($id)
+   {
+      if (empty(CategoriesModel::findById($id))) {
+         $this->Abort404();
+      }
+   }
+
    private function validData()
    {
       if(!empty($_POST['submitted'])) {
@@ -112,6 +128,12 @@ class ProductsController extends Controller
          $this->errors['titre'] = $validation->textValid($this->post['titre'], 'Titre');
          $this->errors['reference'] = $validation->textValid($this->post['reference'], 'Référence');
          $this->errors['description'] = $validation->textValid($this->post['description'], 'Description', 10, 1000);
+
+         if (empty($this->post['categorie'])) {
+            $this->errors['categorie'] = 'Veuillez choisir une catégorie';
+         } else {
+            $this->getCategorie($this->post['categorie']);
+         }
 
          if($validation->IsValid($this->errors))
          {  return true;

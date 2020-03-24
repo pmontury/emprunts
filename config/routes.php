@@ -18,4 +18,7 @@ $routes = array(
    array('listeemprunts','emprunts','liste',array('page')),
    array('updateemprunts','emprunts','update',array('id')),
 
+   array('listecats','categories','liste',array('page')),
+   array('addcats','categories','add'),
+
 );

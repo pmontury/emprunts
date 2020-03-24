@@ -26,9 +26,11 @@
 <form action="" method="post">
    <?= $form->label('Abonnés'); ?>
    <?= $form->select('abonne', $abonnes, 'nom', '-- Choisissez un abonné --'); ?>
+   <?= $form->error('abonne'); ?>
 
    <?= $form->label('Produits'); ?>
    <?= $form->select('produit', $products, 'titre', '-- Choisissez un produit --'); ?>
+   <?= $form->error('produit'); ?>
 
-   <?= $form->submit(); ?>
+   <?= $form->submit('submitted', 'Valider'); ?>
 </form>

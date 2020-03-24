@@ -50,7 +50,6 @@ class Form
         // return $this->arround('<input type="text" id="'.$name.'" name="'.$name.'" value="'.$this->getValue($name,$data).'">');
         // return '<input type="text" id="'.$name.'" name="'.$name.'" value="'.$this->getValue($name,$data).'">';
         $html = '<input type="text" id="'.$name.'" name="'.$name.'" value="'.$this->getValue($name,$data).'">';
-        $html .= '<p class="error">'.$this->error($name).'</p>';
         return $html;
     }
 
@@ -64,7 +63,6 @@ class Form
         // return $this->arround('<textarea name="'.$name.'">'.$this->getValue($name,$data).'</textarea>');
 //        return '<textarea name="'.$name.'">'.$this->getValue($name,$data).'</textarea>';
         $html = '<textarea name="'.$name.'">'.$this->getValue($name,$data).'</textarea>';
-        $html .= '<p class="error">'.$this->error($name).'</p>';
         return $html;
     }
 
@@ -78,18 +76,26 @@ class Form
         return '<input type="submit" name="'.$name.'" id="'.$name.'" value="'.$value.'">';
     }
 
-    /**
-     * @param $name
-     * @return string|null
-     */
-    public function error($name)
-    {
-        if(!empty($this->error[$name])) {
-           // return '<span class="error">'.$this->error[$name].'</span>';
-           return $this->error[$name];
-        }
-        return null;
-    }
+   /**
+    * @param $name
+    * @return string|null
+    */
+   public function getError($name)
+   {
+      if (!empty($this->error[$name])) {
+         return $this->error[$name];
+      }
+      return null;
+   }
+
+   /**
+    * @param $name string
+    * @return string
+    */
+   public function error($name)
+   {
+      return '<p class="error">'.$this->getError($name).'</p>';
+   }
 
     /**
      * @param $name
@@ -114,7 +120,8 @@ class Form
         $html = '<select name="'.$name.'">';
         $html .= '<option value="">' . $default . '</option>';
         foreach ($entitys as $entity) {
-            if(!empty($data) && $data == $entity->$idd){
+//            if(!empty($data) && $data == $entity->$idd){
+            if($this->getValue($name,$data) == $entity->$idd){
                 $selected = ' selected="selected"';
             } else {
                 $selected = '';
@@ -122,7 +129,6 @@ class Form
             $html .= '<option value="'.$entity->$idd.'"'.$selected.'>'.$entity->$column.'</option>';
         }
         $html .= '</select>';
-        $html .= '<p class="error">'.$this->error($name).'</p>';
         return $html;
     }
 

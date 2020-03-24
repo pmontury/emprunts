@@ -6,6 +6,7 @@ use App\Weblitzer\Controller;
 use App\Model\EmpruntsModel;
 use App\Model\AbonnesModel;
 use App\Model\ProductsModel;
+use App\Model\CategoriesModel;
 
 /**
  *
@@ -18,10 +19,11 @@ class DefaultController extends Controller
       $message = 'Bienvenue dans les emprunts';
 
       $stats = array();
-      $stats[] = AbonnesModel::count();
-      $stats[] = ProductsModel::count();
-      $stats[] = EmpruntsModel::count();
-      $stats[] = EmpruntsModel::countEnCours();
+      $stats['nb_abonnes'] = AbonnesModel::count();
+      $stats['nb_products'] = ProductsModel::count();
+      $stats['nb_cats'] = CategoriesModel::count();
+      $stats['nb_emprunts_tot'] = EmpruntsModel::count();
+      $stats['nb_emprunts_encours'] = EmpruntsModel::countEnCours();
 
       $this->render('app.default.frontpage',array(
             'message' => $message,

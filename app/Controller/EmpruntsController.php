@@ -40,8 +40,6 @@ class EmpruntsController extends Controller
       $products = ProductsModel::all();
 
       if ($this->validData()) {
-         $this->getAbonne($this->post['abonne']);
-         $this->getProduct($this->post['produit']);
          EmpruntsModel::insert($this->post);
          $this->redirect('listeemprunts',array($page));
       }
@@ -90,15 +88,19 @@ class EmpruntsController extends Controller
 
    private function validData()
    {
-      if(!empty($_POST['submitted'])) {
+      if (!empty($_POST['submitted'])) {
          $this->post = $this->cleanXss($_POST);
 
          if (empty($this->post['abonne'])) {
             $this->errors['abonne'] = 'Veuillez choisir un abonné';
+         } else {
+            $this->getAbonne($this->post['abonne']);
          }
 
          if (empty($this->post['produit'])) {
             $this->errors['produit'] = 'Veuillez choisir un produit';
+         } else {
+            $this->getProduct($this->post['produit']);
          }
 
          $validation = new Validation;
