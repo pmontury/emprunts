@@ -31,12 +31,12 @@ class EmpruntsModel extends \App\Weblitzer\Model
    {
       App::getDatabase()->prepareInsert("INSERT INTO " . self::getTable() .
                                        " (id_abonne, id_product, start_date) VALUES (?,?,NOW()) ",
-                                       [$post['abonne'],$post['produit']]);
+                                       [$post['abonne'], $post['produit']]);
    }
 
    public static function update($id)
    {
-      App::getDatabase()->prepareInsert("UPDATE " . self::getTable() . " SET end_date = NOW() WHERE id = ?",[$id]);
+      App::getDatabase()->prepareInsert("UPDATE " . self::getTable() . " SET end_date = NOW() WHERE id = ?", [$id]);
    }
 
 }

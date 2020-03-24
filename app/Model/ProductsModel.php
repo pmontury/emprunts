@@ -24,14 +24,14 @@ class ProductsModel extends \App\Weblitzer\Model
    {
       App::getDatabase()->prepareInsert("INSERT INTO " . self::getTable() .
                                        " (titre, reference, description, id_categorie) VALUES (?,?,?,?) ",
-                                       [$post['titre'],$post['reference'],$post['description'],$post['categorie']]);
+                                       [$post['titre'], $post['reference'], $post['description'], $post['categorie']]);
    }
 
    public static function update($id, $post)
    {
       App::getDatabase()->prepareInsert("UPDATE " . self::getTable() .
                                        " SET titre = ?, reference = ?, description = ?, id_categorie = ? WHERE id = ? ",
-                                       [$post['titre'],$post['reference'],$post['description'], $post['categorie'], $id]);
+                                       [$post['titre'], $post['reference'], $post['description'], $post['categorie'], $id]);
    }
 
 }

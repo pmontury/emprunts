@@ -28,7 +28,6 @@ class CategoriesController extends Controller
 
       $totalItems =  CategoriesModel::count();
       $itemsPerPage = 2;
-      $currentPage = 1;
       $offset = 0;
       $currentPage = $page;
       $offset = ($currentPage - 1) * $itemsPerPage;

@@ -27,7 +27,6 @@ class AbonnesController extends Controller
 
       $totalItems = AbonnesModel::count();
       $itemsPerPage = 2;
-      $currentPage = 1;
       $offset = 0;
       $currentPage = $page;
       $offset = ($currentPage - 1) * $itemsPerPage;
@@ -37,8 +36,8 @@ class AbonnesController extends Controller
       $abonnes = AbonnesModel::allByPage($itemsPerPage, $offset, 'nom');
 
       $this->render('app.abonnes.liste',array(
-         'titre' => $titre,
-         'abonnes' => $abonnes,
+         'titre'     => $titre,
+         'abonnes'   => $abonnes,
          'paginator' => $paginator,
       ));
    }
@@ -49,7 +48,7 @@ class AbonnesController extends Controller
       $this->getAbonne($id);
 
       $this->render('app.abonnes.detail',array(
-         'titre' => $titre,
+         'titre'  => $titre,
          'abonne' => $this->abonne
       ));
    }
@@ -69,8 +68,8 @@ class AbonnesController extends Controller
       $form = new Form($this->errors);
 
       $this->render('app.abonnes.add',array(
-         'titre' => $titre,
-         'form' => $form
+         'titre'  => $titre,
+         'form'   => $form
       ));
    }
 
@@ -87,9 +86,9 @@ class AbonnesController extends Controller
       $form = new Form($this->errors);
 
       $this->render('app.abonnes.update',array(
-         'titre'     => $titre,
-         'form'      => $form,
-         'abonne'   => $this->abonne
+         'titre'  => $titre,
+         'form'   => $form,
+         'abonne' => $this->abonne
       ));
    }
 

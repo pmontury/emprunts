@@ -29,7 +29,6 @@ class ProductsController extends Controller
 
       $totalItems =  ProductsModel::count();
       $itemsPerPage = 2;
-      $currentPage = 1;
       $offset = 0;
       $currentPage = $page;
       $offset = ($currentPage - 1) * $itemsPerPage;
@@ -39,8 +38,8 @@ class ProductsController extends Controller
       $products = ProductsModel::allByPageJoint($itemsPerPage, $offset, 'titre');
 
       $this->render('app.products.liste',array(
-         'titre' => $titre,
-         'products' => $products,
+         'titre'     => $titre,
+         'products'  => $products,
          'paginator' => $paginator,
       ));
    }
