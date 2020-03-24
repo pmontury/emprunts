@@ -8,9 +8,18 @@ class EmpruntsModel extends \App\Weblitzer\Model
 {
    protected static $table = 'emprunts';
 
-   public static function allEnCours()
+   public static function allByPageJoint($itemsPerPage, $offset, $orderCol = false, $order = 'ASC')
    {
-      return App::getDatabase()->query("SELECT * FROM ".self::getTable(). " WHERE end_date IS NULL",get_called_class());
+      $sql = "SELECT emp.id, emp.start_date, abo.nom, abo.prenom , pro.titre FROM " . self::getTable() . " AS emp ";
+      $sql .= "LEFT JOIN " . AbonnesModel::getTable() . " AS abo ON emp.id_abonne = abo.id ";
+      $sql .= "LEFT JOIN " . ProductsModel::getTable() . " AS pro ON emp.id_product = pro.id ";
+      $sql .= "WHERE emp.end_date IS NULL ";
+      if ($orderCol) {
+         $sql .= "ORDER BY ".$orderCol." ".$order;
+      }
+      $sql .= " LIMIT ".$itemsPerPage." OFFSET ".$offset;
+
+      return App::getDatabase()->query($sql, get_called_class());
    }
 
    public static function countEnCours()

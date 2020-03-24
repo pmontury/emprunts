@@ -35,18 +35,13 @@ class EmpruntsController extends Controller
       $urlPattern = $view->path('listeemprunts') . '/(:num)/';
       $paginator = new Paginator($totalItems, $itemsPerPage, $currentPage, $urlPattern);
 
-      $emprunts = EmpruntsModel::allByPage($itemsPerPage, $offset, 'start_date');
+      $emprunts = EmpruntsModel::allByPageJoint($itemsPerPage, $offset, 'start_date');
       $abonnes = AbonnesModel::all();
       $products = ProductsModel::all();
 
-      foreach ($emprunts as $emprunt) {
-         $abonne = AbonnesModel::findById($emprunt->id_abonne);
-         $product = ProductsModel::findById($emprunt->id_product);
-         $emprunt->id_abonne = $abonne->prenom .' '. $abonne->nom;
-         $emprunt->id_product = $product->titre;
-      }
-
       if ($this->validData()) {
+         $this->getAbonne($this->post['abonne']);
+         $this->getProduct($this->post['produit']);
          EmpruntsModel::insert($this->post);
          $this->redirect('listeemprunts',array($page));
       }
@@ -66,6 +61,8 @@ class EmpruntsController extends Controller
    public function update($id)
    {
       $this->getEmprunt($id);
+      $this->getAbonne($this->emprunt->id_abonne);
+      $this->getProduct($this->emprunt->id_product);
       EmpruntsModel::update($this->emprunt->id);
       $this->redirect('listeemprunts',array(1));
    }
@@ -73,6 +70,20 @@ class EmpruntsController extends Controller
    private function getEmprunt($id)
    {
       if (empty($this->emprunt = EmpruntsModel::findById($id))) {
+         $this->Abort404();
+      }
+   }
+
+   private function getAbonne($id)
+   {
+      if (empty(AbonnesModel::findById($id))) {
+         $this->Abort404();
+      }
+   }
+
+   private function getProduct($id)
+   {
+      if (empty(ProductsModel::findById($id))) {
          $this->Abort404();
       }
    }

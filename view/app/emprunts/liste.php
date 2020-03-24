@@ -12,8 +12,8 @@
     <tbody>
     <?php foreach($emprunts as $emprunt) { ?>
         <tr>
-            <td><?= $emprunt->id_abonne; ?></td>
-            <td><?= $emprunt->id_product; ?></td>
+            <td><?= $emprunt->prenom . ' ' . $emprunt->nom; ?></td>
+            <td><?= $emprunt->titre; ?></td>
             <td><?= $emprunt->start_date; ?></td>
             <td class="colaction">
                <a href="<?= $view->path('updateemprunts',array($emprunt->id)); ?>" title="Retour produit"><i class="fi-pencil size-24"></i></a>&nbsp;
