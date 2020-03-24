@@ -21,6 +21,10 @@ nav ul li a:hover { text-decoration: underline; color: tomato; }
 .container { min-height: 710px; }
 h1 { font-size: 1.5em; margin: 20px 0; text-decoration: underline; }
 
+.stats { width: 35%; }
+.statstitle { width: 76%; }
+.stats td { border: none; padding: 5px 0; }
+
 table { width: 100%; margin: 10px 0; }
 th
 {  text-align: left; vertical-align: middle;
