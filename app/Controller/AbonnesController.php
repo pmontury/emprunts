@@ -14,7 +14,8 @@ use JasonGrimes\Paginator;
  *
  */
 class AbonnesController extends Controller
-{  private $abonne;
+{
+   private $abonne;
    private $errors = array();
    private $post = array();
 
@@ -43,7 +44,8 @@ class AbonnesController extends Controller
    }
 
    public function detail($id)
-   {  $titre = 'Detail abonné';
+   {
+      $titre = 'Detail abonné';
       $this->getAbonne($id);
 
       $this->render('app.abonnes.detail',array(
@@ -53,11 +55,12 @@ class AbonnesController extends Controller
    }
 
    public function add()
-   {  $titre = 'Ajouter un abonné';
+   {
+      $titre = 'Ajouter un abonné';
 
-      if ($this->validData($this->errors))
-      {  if (empty($this->post['age']))
-         {  $this->post['age'] = NULL;
+      if ($this->validData())
+      {  if (empty($this->post['age'])) {
+            $this->post['age'] = NULL;
          }
          AbonnesModel::insert($this->post);
          $this->redirect('liste',array(1));
@@ -72,11 +75,12 @@ class AbonnesController extends Controller
    }
 
    public function update($id)
-   {  $titre = 'Editer un abonné';
+   {
+      $titre = 'Editer un abonné';
       $this->getAbonne($id);
 
-      if ($this->validData($this->errors))
-      {  AbonnesModel::update($this->abonne->id, $this->post);
+      if ($this->validData()) {
+         AbonnesModel::update($this->abonne->id, $this->post);
          $this->redirect('liste',array(1));
       }
 
@@ -90,20 +94,23 @@ class AbonnesController extends Controller
    }
 
    public function delete($id)
-   {  $this->getAbonne($id);
+   {
+      $this->getAbonne($id);
       AbonnesModel::delete($this->abonne->id);
       $this->redirect('liste',array(1));
    }
 
    private function getAbonne($id)
-   {  if (empty($this->abonne = AbonnesModel::findById($id)))
-      {  $this->Abort404();
+   {
+      if (empty($this->abonne = AbonnesModel::findById($id))) {
+         $this->Abort404();
       }
    }
 
-   private function validData($post)
-   {  if(!empty($_POST['submitted']))
-      {  $this->post = $this->cleanXss($_POST);
+   private function validData()
+   {
+      if(!empty($_POST['submitted'])) {
+         $this->post = $this->cleanXss($_POST);
          $validation = new Validation();
 
          $this->errors['nom'] = $validation->textValid($this->post['nom'], 'nom');
@@ -111,11 +118,11 @@ class AbonnesController extends Controller
          $this->errors['email'] = $validation->emailValid($this->post['email'], 'email', 3, 100, false);
          $this->errors['age'] = $validation->intValid($this->post['age'], 'age', 1, 130, false);
 
-         if($validation->IsValid($this->errors))
-         {  return true;
+         if($validation->IsValid($this->errors)) {
+            return true;
          }
       }
       return false;
    }
 
-}
+}  // class AbonnesController

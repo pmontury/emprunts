@@ -14,7 +14,8 @@ use JasonGrimes\Paginator;
  *
  */
 class ProductsController extends Controller
-{  private $product;
+{
+   private $product;
    private $errors = array();
    private $post = array();
 
@@ -42,7 +43,8 @@ class ProductsController extends Controller
    }
 
    public function detail($id)
-   {  $titre = 'Detail produit';
+   {
+      $titre = 'Detail produit';
       $this->getProduct($id);
 
       $this->render('app.products.detail',array(
@@ -52,10 +54,11 @@ class ProductsController extends Controller
    }
 
    public function add()
-   {  $titre = 'Ajouter un produit';
+   {
+      $titre = 'Ajouter un produit';
 
-      if ($this->validData($this->errors))
-      {  ProductsModel::insert($this->post);
+      if ($this->validData()) {
+         ProductsModel::insert($this->post);
          $this->redirect('listeproducts',array(1));
       }
 
@@ -68,11 +71,12 @@ class ProductsController extends Controller
    }
 
    public function update($id)
-   {  $titre = 'Editer un produit';
+   {
+      $titre = 'Editer un produit';
       $this->getProduct($id);
 
-      if ($this->validData($this->errors))
-      {  ProductsModel::update($this->product->id, $this->post);
+      if ($this->validData()) {
+         ProductsModel::update($this->product->id, $this->post);
          $this->redirect('listeproducts',array(1));
       }
 
@@ -86,20 +90,23 @@ class ProductsController extends Controller
    }
 
    public function delete($id)
-   {  $this->getProduct($id);
+   {
+      $this->getProduct($id);
       ProductsModel::delete($this->product->id);
       $this->redirect('listeproducts',array(1));
    }
 
    private function getProduct($id)
-   {  if (empty($this->product = ProductsModel::findById($id)))
-      {  $this->Abort404();
+   {
+      if (empty($this->product = ProductsModel::findById($id))) {
+         $this->Abort404();
       }
    }
 
-   private function validData($post)
-   {  if(!empty($_POST['submitted']))
-      {  $this->post = $this->cleanXss($_POST);
+   private function validData()
+   {
+      if(!empty($_POST['submitted'])) {
+         $this->post = $this->cleanXss($_POST);
          $validation = new Validation();
 
          $this->errors['titre'] = $validation->textValid($this->post['titre'], 'Titre');

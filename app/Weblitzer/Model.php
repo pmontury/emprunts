@@ -26,6 +26,17 @@ class Model
         return App::getDatabase()->query("SELECT * FROM ".self::getTable(),get_called_class());
     }
 
+   public static function allByPage($itemsPerPage, $offset, $orderCol = false, $order = 'ASC')
+   {
+      $sql = "SELECT * FROM ".self::getTable();
+      if ($orderCol) {
+         $sql .= " ORDER BY ".$orderCol." ".$order;
+      }
+      $sql .= " LIMIT ".$itemsPerPage." OFFSET ".$offset;
+
+      return App::getDatabase()->query($sql, get_called_class());
+   }
+
     public static function findById($id,$columId = 'id')
     {
         return App::getDatabase()->prepare("SELECT * FROM " . self::getTable() . " WHERE ".$columId." = ?",[$id],get_called_class(),true);

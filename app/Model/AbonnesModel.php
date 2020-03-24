@@ -8,18 +8,6 @@ class AbonnesModel extends \App\Weblitzer\Model
 {
    protected static $table = 'abonnes';
 
-   public static function allByPage($itemsPerPage, $offset, $orderCol = false, $order = 'ASC')
-   {
-      $sql = "SELECT * FROM ".self::getTable();
-      if ($orderCol) {
-         $sql .= " ORDER BY ".$orderCol." ".$order;
-      }
-      $sql .= " LIMIT ".$itemsPerPage." OFFSET ".$offset;
-
-      return App::getDatabase()->query($sql, get_called_class());
-   }
-
-
    public static function insert($post)
    {
       App::getDatabase()->prepareInsert("INSERT INTO " . self::getTable() .

@@ -6,9 +6,10 @@ class Validation
    protected $errors = array();
 
    public function IsValid($errors)
-   {  foreach ($errors as $key => $value)
-      {  if(!empty($value))
-         {  return false;
+   {
+      foreach ($errors as $key => $value) {
+         if(!empty($value)) {
+            return false;
          }
       }
       return true;
@@ -59,23 +60,21 @@ class Validation
     }
 
    function intValid($value, $key, $min, $max, $obligatoire = true)
-   {  $error = '';
-      if (filter_var($value, FILTER_VALIDATE_INT) === 0 OR filter_var($value, FILTER_VALIDATE_INT))
-      {  if ($value < $min)
-         {  $error = 'Le champ ' . $key . ' doit être supérieur à ' . $min;
+   {
+      $error = '';
+      if (filter_var($value, FILTER_VALIDATE_INT) === 0 OR filter_var($value, FILTER_VALIDATE_INT)) {
+         if ($value < $min) {
+            $error = 'Le champ ' . $key . ' doit être supérieur à ' . $min;
+         } elseif ($value > $max) {
+            $error = 'Le champ ' . $key . ' doit être inférieur à ' . $max;
          }
-         elseif ($value > $max)
-         {  $error = 'Le champ ' . $key . ' doit être inférieur à ' . $max;
-         }
-      }
-      else
-      {  if (empty($value))
-         {  if ($obligatoire)
-            {  $error = 'Veuillez renseigner le champ ' . $key;
+      } else {
+         if (empty($value)) {
+            if ($obligatoire) {
+              $error = 'Veuillez renseigner le champ ' . $key;
             }
-         }
-         else
-         {  $error = 'Le champ ' . $key . ' doit être un nombre entier';
+         } else {
+           $error = 'Le champ ' . $key . ' doit être un nombre entier';
          }
       }
       return $error;

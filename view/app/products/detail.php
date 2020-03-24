@@ -1,6 +1,4 @@
-<h1 style="text-align: center;font-size:33px;margin-top: 10px;">
-    <?= $titre; ?>
-</h1>
+<h1><?= $titre; ?></h1>
 <table>
     <thead>
         <tr>

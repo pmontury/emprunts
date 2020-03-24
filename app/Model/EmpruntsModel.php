@@ -13,16 +13,6 @@ class EmpruntsModel extends \App\Weblitzer\Model
       return App::getDatabase()->query("SELECT * FROM ".self::getTable(). " WHERE end_date IS NULL",get_called_class());
    }
 
-   public static function allByPage($itemsPerPage, $offset, $orderCol = false, $order = 'ASC')
-   {  $sql = "SELECT * FROM ".self::getTable() . " WHERE end_date IS NULL";
-      if ($orderCol)
-      {  $sql .= " ORDER BY ".$orderCol." ".$order;
-      }
-      $sql .= " LIMIT ".$itemsPerPage." OFFSET ".$offset;
-
-      return App::getDatabase()->query($sql, get_called_class());
-   }
-
    public static function countEnCours()
    {
       return App::getDatabase()->aggregation("SELECT COUNT(id) FROM " . self::getTable() . " WHERE end_date IS NULL" );
